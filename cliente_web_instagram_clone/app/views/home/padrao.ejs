@@ -1,60 +1,90 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
-	<head>
-		<meta charset="UTF-8">
+<head>
+	<meta charset="UTF-8">
 
-		<title>Instagram Clone - WEB</title>
-		
-		<!-- JQuery -->
-		<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<title>Instagram Clone - WEB</title>
 
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!-- JQuery -->
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+	<!-- bootstrap - link cdn -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	
-		<!-- incluindo css -->
-		<link href="css/style.css" rel="stylesheet">
+	<!-- incluindo css -->
+	<link href="css/style.css" rel="stylesheet">
 
-		<script>
-			$(document).ready(function(){
+	<script>
+		$(document).ready(function(){
 
-				$('#btn_incluir').click(function(){
-					$('#container_timeline').hide();
-					$('#container_form').show();
-				});
-
-				$('#btn-cancelar-publicacao').click(function(){
-					$('#container_timeline').show();
-					$('#container_form').hide();
-					return false;
-				});
-
+			$('#btn_incluir').click(function(){
+				$('#container_timeline').hide();
+				$('#container_form').show();
 			});
-		</script>
 
-	</head>
+			$('#btn-cancelar-publicacao').click(function(){
+				$('#container_timeline').show();
+				$('#container_form').hide();
+				return false;
+			});
 
-	<body>
+			$('#btn-publicar').click(function(){
 
-		<nav class="navbar navbar-default">
-			<div class="container">
-				<div class="col-md-12">
-					<div class="container-fluid">
-						<img alt="Instagram Clone - Versão WEB" src="images/logo2.jpg" class="logo2">
-						<img alt="Incluir" src="images/incluir.jpg" class="pull-right btn-incluir" id="btn_incluir">						
-					</div>
+					// create a formData
+					var formData = new FormData();
+
+					var arquivo = document.getElementById('arquivo').files[0];
+					var titulo = document.getElementById('titulo').value;
+
+					formData.append('arquivo', arquivo);
+					formData.append('titulo', titulo);
+
+				//	formData.serializable();
+
+					// create xmlhttprequest
+					var xhr = new XMLHttpRequest();
+
+					//verify state changes
+					xhr.onreadystatechage = function(){
+						if(xhr.readyState == 4){
+							var resposta = xhr.responseText;
+							document.getElementById('mensagem').innerHTML = resposta;
+						}
+					}
+
+
+					//send request
+					xhr.open("POST", "http://localhost:3000/api");
+					xhr.send(formData);
+				});
+
+		});
+	</script>
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="col-md-12">
+				<div class="container-fluid">
+					<img alt="Instagram Clone - Versão WEB" src="images/logo2.jpg" class="logo2">
+					<img alt="Incluir" src="images/incluir.jpg" class="pull-right btn-incluir" id="btn_incluir">						
 				</div>
 			</div>
-		</nav>
-
-		<div class="container">
-			<div class="col-md-2"></div>
-			<div class="col-md-8" id="container_timeline"></div>
-			
 		</div>
+	</nav>
+
+	<div class="container">
+		<div class="col-md-2"></div>
+		<div class="col-md-8" id="container_timeline"></div>
+
+	</div>
 
 
-		<div class="container" style="display:none" id="container_form">
-			<div class="panel panel-default">
+	<div class="container" style="display:none" id="container_form">
+		<div class="panel panel-default">
 
 			<div class="panel-heading"><h4>Publicar uma foto</h4></div>
 			
@@ -75,4 +105,4 @@
 			</div>
 		</div>
 	</body>
-</html>
+	</html>
