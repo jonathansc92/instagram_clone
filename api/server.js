@@ -135,8 +135,10 @@ app.get('/api/:id', function(req, res){
 
 //PUT by ID(update)
 app.put('/api/:id', function(req, res){
+
+	res.send('roa');
 	
-	db.open( function(err, mongoclient){
+	/*db.open( function(err, mongoclient){
 		mongoclient.collection('postagens', function(err, collection){
 			collection.update(
 				{ _id : objectID(req.params.id) },
@@ -152,7 +154,7 @@ app.put('/api/:id', function(req, res){
 				}
 				);
 		});
-	});
+	});*/
 
 });
 
